@@ -1,0 +1,470 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+
+@import "tailwindcss";
+@import "primeicons/primeicons.css";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─────────────────────────────────────────
+   Design Tokens — Catppuccin Mocha palette
+   ───────────────────────────────────────── */
+:root {
+    --radius: 0.625rem;
+
+    /* Surface scale */
+    --crust: #11111b;
+    --mantle: #181825;
+    --base: #1e1e2e;
+    --surface0: #313244;
+    --surface1: #45475a;
+    --surface2: #585b70;
+
+    /* Overlay / text */
+    --overlay0: #6c7086;
+    --overlay1: #7f849c;
+    --overlay2: #9399b2;
+    --subtext0: #a6adc8;
+    --subtext1: #bac2de;
+    --text: #cdd6f4;
+
+    /* Accent palette */
+    --lavender: #7287fd;
+    --blue: #1e66f5;
+    --sapphire: #209fb5;
+    --sky: #04a5e5;
+    --teal: #179299;
+    --green: #40a02b;
+    --yellow: #df8e1d;
+    --peach: #fe640b;
+    --maroon: #e64553;
+    --red: #d20f39;
+    --mauve: #8839ef;
+    --pink: #ea76cb;
+    --flamingo: #dd7878;
+    --rosewater: #dc8a78;
+}
+
+/* ─────────────────────────────────────────
+   Tailwind theme mapping
+   All variables here MUST reference the
+   :root tokens above (no hyphens mis-match)
+   ───────────────────────────────────────── */
+@theme inline {
+    /* Semantic color roles */
+    --color-primary: var(--peach);
+    --color-secondary: var(--red);
+    --color-background: var(--mantle);
+    --color-background-dark: var(--crust);
+    --color-background-light: var(--base);
+    --color-foreground: var(--overlay2);
+    --color-foreground-dark: var(--overlay1);
+    --color-foreground-light: var(--overlay0);
+    --color-text: var(--text);
+    --color-text-white: var(--overlay2);
+    --color-text-black: var(--surface0);
+    --color-accent: var(--yellow);
+    --color-muted: var(--teal);
+    --color-border: var(--crust);
+    --color-ring: var(--lavender);
+    --color-input: var(--sapphire);
+    --color-destructive: var(--red);
+
+    /* Surface tokens (usable as bg-surface, bg-surface-0 etc.) */
+    --color-surface: var(--mantle);
+    --color-surface-0: var(--surface0);
+    --color-surface-1: var(--surface1);
+    --color-surface-2: var(--surface2);
+
+    /* Overlay tokens */
+    --color-overlay0: var(--overlay0);
+    --color-overlay1: var(--overlay1);
+    --color-overlay2: var(--overlay2);
+
+    /* Radius scale */
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ─────────────────────────────────────────
+   Base layer
+   ───────────────────────────────────────── */
+@layer base {
+    *,
+    *::before,
+    *::after {
+        @apply border-border outline-ring/50;
+        box-sizing: border-box;
+    }
+
+    html {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+    }
+
+    body {
+        color: var(--text);
+        background:
+            radial-gradient(
+                ellipse 80% 40% at 50% -5%,
+                rgba(254, 100, 11, 0.07) 0%,
+                transparent 70%
+            ),
+            var(--mantle);
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+    }
+}
+
+/* ─────────────────────────────────────────
+   Typography utilities
+   body-font intentionally has NO font-size
+   set here — size is controlled per element
+   ───────────────────────────────────────── */
+.heading-font {
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.body-font {
+    font-family: "VT323", monospace;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.25rem; /* ~20px for high legibility with VT323 */
+    line-height: 1.4;
+}
+
+.highlight-font {
+    font-family: "Share Tech Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.caption-text {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+/* ─────────────────────────────────────────
+   Color utility classes
+   (Tailwind can't interpolate CSS vars at
+    build time for arbitrary palette values,
+    so we define them here explicitly)
+   ───────────────────────────────────────── */
+
+/* Text colors */
+.text-peach {
+    color: var(--peach);
+}
+.text-mauve {
+    color: var(--mauve);
+}
+.text-sky {
+    color: var(--sky);
+}
+.text-green {
+    color: var(--green);
+}
+.text-yellow {
+    color: var(--yellow);
+}
+.text-red {
+    color: var(--red);
+}
+.text-teal {
+    color: var(--teal);
+}
+.text-lavender {
+    color: var(--lavender);
+}
+.text-sapphire {
+    color: var(--sapphire);
+}
+
+/* Overlay text */
+.text-overlay0 {
+    color: var(--overlay0);
+}
+.text-overlay1 {
+    color: var(--overlay1);
+}
+.text-overlay2 {
+    color: var(--overlay2);
+}
+.text-subtext0 {
+    color: var(--subtext0);
+}
+.text-subtext1 {
+    color: var(--subtext1);
+}
+
+/* Background tints */
+.bg-peach\/10 {
+    background-color: rgba(254, 100, 11, 0.1);
+}
+.bg-peach\/20 {
+    background-color: rgba(254, 100, 11, 0.2);
+}
+.bg-green\/10 {
+    background-color: rgba(64, 160, 43, 0.1);
+}
+.bg-green\/20 {
+    background-color: rgba(64, 160, 43, 0.2);
+}
+.bg-red\/10 {
+    background-color: rgba(210, 15, 57, 0.1);
+}
+.bg-yellow\/10 {
+    background-color: rgba(223, 142, 29, 0.1);
+}
+.bg-surface {
+    background-color: var(--mantle);
+}
+.bg-surface\/50 {
+    background-color: rgba(24, 24, 37, 0.5);
+}
+
+/* Border tints */
+.border-peach\/20 {
+    border-color: rgba(254, 100, 11, 0.2);
+}
+.border-peach\/25 {
+    border-color: rgba(254, 100, 11, 0.25);
+}
+.border-green\/20 {
+    border-color: rgba(64, 160, 43, 0.2);
+}
+.border-white\/5 {
+    border-color: rgba(255, 255, 255, 0.05);
+}
+.border-white\/10 {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ─────────────────────────────────────────
+   Scrollbar suppression
+   ───────────────────────────────────────── */
+.hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* ─────────────────────────────────────────
+   Now Playing widget
+   ───────────────────────────────────────── */
+.now-playing {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px;
+    border-radius: 28px;
+    font-family: sans-serif;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.np-art {
+    width: 64px;
+    height: 64px;
+    border-radius: 4px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.np-art-placeholder {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--yellow), var(--peach));
+    flex-shrink: 0;
+    opacity: 0.6;
+}
+
+.np-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.np-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--yellow);
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.np-label-dim {
+    color: var(--overlay0);
+}
+
+.np-song {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text);
+}
+
+.np-artist {
+    font-size: 1.125rem;
+    margin: 0;
+    color: var(--subtext1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.np-album {
+    font-size: 1rem;
+    margin: 0;
+    color: var(--subtext0);
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Equalizer bars */
+.np-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.np-bars span {
+    display: block;
+    width: 3px;
+    background: var(--yellow);
+    border-radius: 2px;
+    animation: np-bar 0.8s ease-in-out infinite alternate;
+}
+
+.np-bars span:nth-child(1) {
+    animation-delay: 0s;
+    height: 60%;
+}
+.np-bars span:nth-child(2) {
+    animation-delay: 0.15s;
+    height: 100%;
+}
+.np-bars span:nth-child(3) {
+    animation-delay: 0.3s;
+    height: 40%;
+}
+.np-bars span:nth-child(4) {
+    animation-delay: 0.45s;
+    height: 80%;
+}
+.np-bars span:nth-child(5) {
+    animation-delay: 0.6s;
+    height: 55%;
+}
+
+@keyframes np-bar {
+    from {
+        transform: scaleY(0.3);
+    }
+    to {
+        transform: scaleY(1);
+    }
+}
+
+/* ─────────────────────────────────────────
+   Stat card accent strips
+   ───────────────────────────────────────── */
+.stat-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: 28px 28px 0 0;
+}
+
+.stat-top-peach {
+    background: linear-gradient(90deg, #fe640b, #df8e1d);
+}
+.stat-top-yellow {
+    background: linear-gradient(90deg, #df8e1d, #dc8a78);
+}
+.stat-top-red {
+    background: linear-gradient(90deg, #e64553, #d20f39);
+}
+
+/* ─────────────────────────────────────────
+   Misc legacy helpers
+   ───────────────────────────────────────── */
+#name-intro {
+    text-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+.overlay-content {
+    margin: 0.5rem;
+    background-color: var(--crust);
+    color: var(--text);
+    padding: 0 0.5rem;
+    border: 2px solid black;
+    border-radius: var(--radius);
+}
+
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.25rem;
+    width: 100%;
+}
+
+/* ── Base card (matches landing page card DNA) ── */
+.bento-card {
+    background: rgba(24, 24, 37, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.75rem;
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.bento-card:hover {
+    border-color: rgba(254, 100, 11, 0.2);
+    box-shadow: 0 0 32px rgba(254, 100, 11, 0.04);
+}
+
+/* ── Section eyebrow label (exact landing page style) ── */
+.section-eyebrow {
+    font-family: "Press Start 2P", system-ui;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--overlay0);
+    line-height: 1;
+    margin-bottom: 0;
+}
