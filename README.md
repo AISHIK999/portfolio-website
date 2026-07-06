@@ -106,6 +106,66 @@ python manage.py runserver
 The API will be available at `http://localhost:8000/api/`, with the admin at
 `http://localhost:8000/admin/`.
 
+Example data for the models:
+
+<details>
+<summary>Profile</summary>
+Create only one profile per deployment. For ,ultiple profiles, only the first one is rendered
+    <ul>
+        <li>Name: Your name (e.g., `FirstName LastName`)</li>
+        <li>Tagline: Your status (a couple of words e.g., `Legacy personality`)</li>
+        <li>Roles: Python list structure for roles. Space " " doesn't get rendered properly. Fault in the VueBits component. Rather use ` ` - unicode U+2002 (e.g., `["Pythonista", "Backend Developer", "RPA Developer"]`</li>
+        <li>Bio: Long intro. Rendered in the about page</li>
+        <li>Avatar: Link to your profile photo</li>
+        <li>GitHub: Link to your github profile</li>
+        <li>LinkedIn: Link to your LinkedIn profile</li>
+        <li>Email: Your email ID</li>
+        <li>Resume: Link to your resume</li>
+    </ul>
+</details>
+
+<details>
+    <summary>Tech Stacks</summary>
+    For each tech stack you want to render in the scrollview in the About page, create a new tech stack with the below attributes
+        <ul>
+            <li>Node: Link to the icon for the skill (e.g., `https://img.icons8.com/color/48/linux--v1.png` for Linux</li>
+            <li>Title: Name of the skill (e.g., `Linux` in this case)</li>
+            <li>Href: Link to the website or portal of the skill (e.g., `https://www.linuxfoundation.org/` in this case)</li>
+        </ul>
+</details>
+
+<details>
+    <summary>Experiences</summary>
+    For each experience, create a new Experience object
+    <ul>
+        <li>Company: Name of the company (e.g., Microsoft)</li>
+        <li>Start date: Date when you started working</li>
+        <li>End date: Date when you left the company. Leave blank for `Currently working` status</li>
+        <li>Description: Write whatever you did at work, your achievements etc.</li>
+        <li>Order: Keep as is or change the number for ordering the experience list as you need</li>
+    </ul>
+</details>
+
+<details>
+    <summary>Projects</summary>
+    For each project, create a new Project object
+    <ul>
+        <li>Title: Name of the project (e.g., CRUD application)</li>
+        <li>Description: Project description</li>
+        <li>Tech stack: Python list structure for tech stack (e.g., `["Docker", "PostgreSQL", "Redis"]`</li>
+        <li>Github url: Link to the github repo (e.g., https://github.com/torvalds/AudioNoise)</li>
+        <li>Live url: Link to where the project is deployed (e.g., idk, DIY. Leave blank if not deployed)</li>
+        <li>Image: Link to header image of the project object (e.g., get something from pexels or something idk)</li>
+        <li>Featured: Adds a featured tag to the project. Ooh, shiny!</li>
+        <li>Order: Keep as is or change the number for ordering the project list as you need</li>
+    </ul>
+</details>
+
+<details>
+    <summary>Contact messages</summary>
+    Whoever sends you messages, you get it here. As simple as that. No data entry needed here
+</details>
+
 ### 3. Frontend setup
 
 ```bash
