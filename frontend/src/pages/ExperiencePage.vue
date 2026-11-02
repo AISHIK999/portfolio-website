@@ -8,9 +8,11 @@ import CountUp from "../component/CountUp/CountUp.vue";
 import ShinyText from "../component/ShinyText/ShinyText.vue";
 import PageBackground from "../component/PageBackground.vue";
 
-const { experience, fetchAll, error } = usePortfolio();
+const { experience, fetchExperience, errorExperience } = usePortfolio();
 
-onMounted(fetchAll);
+onMounted(() => {
+    fetchExperience();
+});
 
 // Group experiences by company
 const groupedExperience = computed(() => {
@@ -99,12 +101,12 @@ const totalCompanies = computed(() => {
             </div>
 
             <div
-                v-if="error"
+                v-if="errorExperience"
                 class="flex flex-col items-center justify-center py-20 gap-4"
             >
-                <p class="body-font text-red">{{ error }}</p>
+                <p class="body-font text-red">{{ errorExperience }}</p>
                 <button
-                    @click="fetchAll"
+                    @click="fetchExperience(true)"
                     class="star-border-btn px-6 py-2 bg-peach/10 border border-peach/20 rounded-full text-peach"
                 >
                     Retry

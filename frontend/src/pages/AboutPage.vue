@@ -39,7 +39,18 @@ ChartJS.register(
     Filler,
 );
 
-const { profile, techStack, fetchAll, error } = usePortfolio();
+const {
+    profile,
+    techStack,
+    fetchProfile,
+    fetchTechStack,
+    errorProfile,
+} = usePortfolio();
+
+function retryPortfolio() {
+    fetchProfile(true);
+    fetchTechStack(true);
+}
 const {
     nowPlaying,
     weather,
@@ -246,7 +257,8 @@ function updateCharts() {
 }
 
 onMounted(async () => {
-    fetchAll();
+    fetchProfile();
+    fetchTechStack();
     fetchNowPlaying();
     fetchWeather();
     await fetchWaka();
@@ -327,14 +339,14 @@ onUnmounted(() => {
                         <div class="bio-col">
                             <p class="section-eyebrow">WHO AM I?</p>
                             <div
-                                v-if="error"
+                                v-if="errorProfile"
                                 class="flex flex-col items-center justify-center py-10 gap-2"
                             >
                                 <p class="body-font text-red text-sm">
-                                    {{ error }}
+                                    {{ errorProfile }}
                                 </p>
                                 <button
-                                    @click="fetchAll"
+                                    @click="retryPortfolio"
                                     class="text-xs underline text-peach"
                                 >
                                     Retry

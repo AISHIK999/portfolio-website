@@ -5,7 +5,7 @@ import { getImageUrl } from "@/api/portfolio";
 import Aurora from "../component/Aurora/Aurora.vue";
 import FadeContent from "../component/FadeContent/FadeContent.vue";
 import RotatingText from "../component/RotatingText/RotatingText.vue";
-const { profile, fetchAll, error } = usePortfolio();
+const { profile, fetchProfile, errorProfile } = usePortfolio();
 
 const timeOpts = {
     timeZone: "Asia/Kolkata",
@@ -39,7 +39,7 @@ function updateClock() {
 }
 
 onMounted(() => {
-    fetchAll();
+    fetchProfile();
     updateClock();
     clockInterval = setInterval(updateClock, 1000);
 });
@@ -106,11 +106,11 @@ const socialLinks = computed(() =>
                 <!-- Identity Card -->
                 <section class="identity-card md:col-span-8">
                     <div
-                        v-if="error"
+                        v-if="errorProfile"
                         class="flex flex-col items-center justify-center h-full gap-4"
                     >
-                        <p class="body-font text-red">{{ error }}</p>
-                        <button @click="fetchAll" class="social-link">
+                        <p class="body-font text-red">{{ errorProfile }}</p>
+                        <button @click="fetchProfile(true)" class="social-link">
                             Retry
                         </button>
                     </div>

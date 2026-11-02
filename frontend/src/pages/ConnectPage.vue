@@ -6,8 +6,10 @@ import PageBackground from "../component/PageBackground.vue";
 import FadeContent from "../component/FadeContent/FadeContent.vue";
 import GradientText from "../component/GradientText/GradientText.vue";
 
-const { profile, fetchAll } = usePortfolio();
-onMounted(fetchAll);
+const { profile, fetchProfile } = usePortfolio();
+onMounted(() => {
+    fetchProfile();
+});
 
 const form = ref({ name: "", email: "", message: "" });
 const status = ref<"success" | "error" | null>(null);
