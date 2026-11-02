@@ -1,19 +1,22 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
-import LandingPage from "@/pages/LandingPage.vue";
-import AboutPage from "@/pages/AboutPage.vue";
-import ExperiencePage from "@/pages/ExperiencePage.vue";
-import ProjectsPage from "@/pages/ProjectsPage.vue";
-import ConnectPage from "@/pages/ConnectPage.vue";
-import NotFoundPage from "@/pages/404Page.vue";
 
+// Route components are lazy-loaded so the landing page doesn't ship the
+// charting/animation libraries used by other pages.
 const routes: RouteRecordRaw[] = [
-  { path: "/", component: LandingPage },
-  { path: "/about", component: AboutPage },
-  { path: "/experience", component: ExperiencePage },
-  { path: "/projects", component: ProjectsPage },
-  { path: "/connect", component: ConnectPage },
-  { path: "/:pathMatch(.*)*", name: "404", component: NotFoundPage },
+  { path: "/", component: () => import("@/pages/LandingPage.vue") },
+  { path: "/about", component: () => import("@/pages/AboutPage.vue") },
+  {
+    path: "/experience",
+    component: () => import("@/pages/ExperiencePage.vue"),
+  },
+  { path: "/projects", component: () => import("@/pages/ProjectsPage.vue") },
+  { path: "/connect", component: () => import("@/pages/ConnectPage.vue") },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "404",
+    component: () => import("@/pages/404Page.vue"),
+  },
 ];
 
 const router = createRouter({

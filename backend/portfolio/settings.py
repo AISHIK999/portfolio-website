@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+from os import getenv
 from pathlib import Path
 
 import dj_database_url
@@ -22,7 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "change_this_before_deploying_to_production"
+SECRET_KEY = getenv(
+    "SECRET_KEY",
+    "change_this_before_deploying_to_production",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -84,13 +88,55 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "portfolio.wsgi.application"
 
-DATABASES = {
-    "default": dj_database_url.parse(
-        url="postgresql://neondb_owner:<change_neon_owner@<deployed_url>/neondb?sslmode=require",
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+# Database
+# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+
+# Prefer DATABASE_URL from the environment; keep the existing value as a
+# fallback so deployments without the env var keep working.
+_default_database = dj_database_url.parse(
+    url=getenv(
+        "DATABASE_URL",
+        "postgresql://neondb_owner:<change_neon_owner@<deployed_url>/neondb?sslmode=require",
+    ),
+    # Client-side pooling replaces persistent connections on serverless.
+    conn_max_age=0,
+    conn_health_checks=True,
+)
+
+# Reuse database connections inside each warm serverless instance. This removes
+# the TCP + TLS handshake to Neon on every request. Fall back to persistent
+# connections if the optional pool dependency is missing.
+_db_options = dict(_default_database.get("OPTIONS", {}))
+try:
+    import psycopg_pool  # noqa: F401
+
+    _db_options["pool"] = {
+        "min_size": 0,
+        "max_size": 4,
+        "timeout": 10,
+    }
+    # Neon uses PgBouncer in transaction mode. Server-side prepared statements
+    # can break when a connection is moved between clients, so disable them.
+    _db_options["prepare_threshold"] = None
+except ImportError:
+    _default_database["CONN_MAX_AGE"] = 600
+
+_default_database["OPTIONS"] = _db_options
+
+DATABASES = {"default": _default_database}
+
+
+# ── Django REST framework ────────────────────────────────────────────────────
+# Public, read-only endpoints don't need session auth. Dropping it removes the
+# `Vary: Cookie` header, which is what currently prevents CDN caching.
+REST_FRAMEWORK = {
+    "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
+    "DEFAULT_AUTHENTICATION_CLASSES": [],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

@@ -7,9 +7,11 @@ import GradientText from "../component/GradientText/GradientText.vue";
 import BorderGlow from "../component/BorderGlow/BorderGlow.vue";
 import PageBackground from "../component/PageBackground.vue";
 
-const { projects, fetchAll, error } = usePortfolio();
+const { projects, fetchProjects, errorProjects } = usePortfolio();
 
-onMounted(fetchAll);
+onMounted(() => {
+    fetchProjects();
+});
 
 const sortedProjects = computed(() => {
     if (!projects.value) return [];
@@ -47,12 +49,12 @@ const sortedProjects = computed(() => {
             </div>
 
             <div
-                v-if="error"
+                v-if="errorProjects"
                 class="flex flex-col items-center justify-center py-20 gap-4"
             >
-                <p class="body-font text-red">{{ error }}</p>
+                <p class="body-font text-red">{{ errorProjects }}</p>
                 <button
-                    @click="fetchAll"
+                    @click="fetchProjects(true)"
                     class="icon-link w-auto px-6 rounded-full"
                 >
                     Retry

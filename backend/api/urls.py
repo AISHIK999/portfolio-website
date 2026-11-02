@@ -7,5 +7,7 @@ urlpatterns = [
     path("tech-stack/", views.TechStackListView.as_view()),
     path("experience/", views.ExperienceListView.as_view()),
     path("projects/", views.ProjectListView.as_view()),
+    path("bootstrap/", views.BootstrapView.as_view()),
+    path("health/", views.HealthView.as_view()),
     path("contact/", views.ContactView.as_view()),
 ]

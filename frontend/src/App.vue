@@ -5,10 +5,10 @@ import ClickSpark from "./component/ClickSpark/ClickSpark.vue";
 import { usePortfolio } from "@/composables/usePortfolio";
 import { getImageUrl } from "@/api/portfolio";
 
-const { profile, fetchAll } = usePortfolio();
+const { profile, fetchProfile } = usePortfolio();
 
 onMounted(() => {
-    fetchAll();
+    fetchProfile();
 });
 
 const route = useRoute();
